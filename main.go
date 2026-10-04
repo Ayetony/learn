@@ -17,5 +17,7 @@ func main() {
 	transport.LoadContent("do not repeating too much")
 	var i int = 10
 	checkutils.CheckValue(i + 1)
-	heartbeat.Beat()
+	for range 5 {
+		heartbeat.Beat()
+	}
 }
