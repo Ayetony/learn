@@ -3,21 +3,21 @@ package main
 import (
 	"fmt"
 
-	"com.practice/tools"
-	"com.practice/transport"
-	checkutils "example.com/hello/check-utils"
 	"example.com/hello/heartbeat"
+	"example.com/hello/transport"
+	"example.com/hello/utils"
 	"github.com/fatih/color"
 )
 
 func main() {
-	color.Green("Hello, Go Modules!")
+	color.Blue("Hello, Go Modules!")
 	fmt.Println("module: example.com/hello")
-	tools.RunDemo()
 	transport.LoadContent("do not repeating too much")
-	var i int = 10
-	checkutils.CheckValue(i + 1)
+	var i = 10
+	chekced := utils.CheckValue(i)
 	for range 5 {
-		heartbeat.Beat()
+		if chekced {
+			heartbeat.Beat()
+		}
 	}
 }
