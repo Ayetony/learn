@@ -11,6 +11,7 @@ func ModifyArray(arr [3]int) {
 }
 
 func ModifySliceArray(s []int) {
+	// 未指定对应的索引则是一个指针引用
 	fmt.Println("s type is ", reflect.ValueOf(s).Type(), reflect.TypeOf(s).String())
 	s[1] = 10
 }

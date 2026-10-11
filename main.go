@@ -20,4 +20,6 @@ func main() {
 			heartbeat.Beat()
 		}
 	}
+
+	fmt.Print("Hello" > "world")
 }
