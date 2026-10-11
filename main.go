@@ -10,12 +10,14 @@ import (
 )
 
 func main() {
+	// testing block
+	transport.NoCSPVailable()
 	color.Blue("Hello, Go Modules!")
 	fmt.Println("module: example.com/hello")
 	transport.LoadContent("do not repeating too much")
 	var i = 10
 	chekced := utils.CheckValue(i)
-	for range 5 {
+	for range 3 {
 		if chekced {
 			heartbeat.Beat()
 		}
