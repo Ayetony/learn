@@ -22,6 +22,5 @@ func main() {
 			heartbeat.Beat()
 		}
 	}
-
-	fmt.Print("Hello" > "world")
+	transport.HandleQueue(3)
 }

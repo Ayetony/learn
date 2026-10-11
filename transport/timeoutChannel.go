@@ -29,12 +29,16 @@ func NoCSPVailable() {
 	// channel 发送和接收无法和自己配对，没有缓冲和default处理下，则死锁
 	// chan 同步通信：发送方和接收方必须“碰头”才能完成一次传递。
 	// 无缓冲 channel 的发送和接收必须同时配对
+
 	ch := make(chan int)
+	go func() {
+		// 接收发送分成两个协程
+		ch <- 1
+	}()
 	select {
-	case <-ch:
-	case ch <- 1:
+	case data := <-ch:
+		fmt.Println(data)
 	}
-	fmt.Println(len(ch))
 }
 
 func NoDeadLockChannelWithCache() {
