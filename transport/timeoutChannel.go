@@ -45,6 +45,8 @@ func NoDeadLockChannelWithCache() {
 	ch := make(chan int, 1)
 	ch <- 1
 	<-ch
+	// 关闭管道
+	close(ch)
 }
 
 func DeadLockWithoutCache() {

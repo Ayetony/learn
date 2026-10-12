@@ -12,5 +12,5 @@ func TestTimeout(t *testing.T) {
 }
 
 func TestDeadLock(t *testing.T) {
-	transport.NoCSPVailable()
+	transport.CSPVailable()
 }
