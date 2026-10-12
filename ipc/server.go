@@ -30,33 +30,35 @@ func NewIpcServer(server Server) *IpcServer {
 }
 
 // Connect - session 设计就是关于一个原生管道的属性变化
-func (server *IpcServer) Connect() chan string {
+func (server *IpcServer) Connect() *chan string {
 	// 闭包获取 session 实参，执行读取
-	var session = make(chan string, 1)
+	var session = make(chan string)
 	for {
 		go func(c chan string) {
-			request := <-c
-			if request == "CLOSE" {
-				fmt.Println("Closing session proactively")
-				close(c)
+			for {
+				request := <-c
+				if request == "CLOSE" {
+					fmt.Println("Closing session proactively")
+					close(c)
+					return
+				}
+				var req Request
+				err := json.Unmarshal([]byte(request), &req)
+				if err != nil {
+					fmt.Println("Error: invalid request format:", request)
+					continue
+				}
+				response := server.Handle(req.Method, req.Params)
+				b, err := json.Marshal(response)
+				if err != nil {
+					fmt.Println("Error: ", err, "-", request)
+					continue
+				}
+				c <- string(b)
 			}
-			var req Request
-			err := json.Unmarshal([]byte(request), &req)
-			if err != nil {
-				fmt.Println("Error: invalid request format:", request)
-				return
-			}
-			response := server.Handle(req.Method, req.Params)
-			b, err := json.Marshal(response)
-			if err != nil {
-				fmt.Println("Error: ", err, "-", request)
-			}
-			// 返回结果
-			c <- string(b)
-			fmt.Println("session closed")
 		}(session)
 		fmt.Println("session opened")
-		return session
+		return &session
 	}
 }
 
