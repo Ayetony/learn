@@ -37,10 +37,8 @@ func HandleClosedQueue() {
 			}
 		}
 	}()
-
 	recv := <-out
 	fmt.Println(recv)
-
 }
 
 const (

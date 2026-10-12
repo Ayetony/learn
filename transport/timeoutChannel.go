@@ -6,7 +6,6 @@ import (
 )
 
 func TimeoutHandle(ch chan string) {
-
 	timeout := make(chan bool, 1)
 	// 匿名函数实现超时控制，其实就是 channel 固定周期给一个写入值
 	go func() {
@@ -24,12 +23,11 @@ func TimeoutHandle(ch chan string) {
 	}
 }
 
-func NoCSPVailable() {
-	// no any caching
+func CSPVailable() {
 	// channel 发送和接收无法和自己配对，没有缓冲和default处理下，则死锁
 	// chan 同步通信：发送方和接收方必须“碰头”才能完成一次传递。
 	// 无缓冲 channel 的发送和接收必须同时配对
-
+	// channel 通信要注意主协程，毕竟一旦运行完毕就退出了，所以要了解协程调度策略
 	ch := make(chan int)
 	go func() {
 		// 接收发送分成两个协程
@@ -38,6 +36,8 @@ func NoCSPVailable() {
 	select {
 	case data := <-ch:
 		fmt.Println(data)
+	default:
+		fmt.Println("ok")
 	}
 }
 
